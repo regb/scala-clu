@@ -1,5 +1,28 @@
 package clu
 
+case class MultiCommands(
+  name: String,
+  commands: Seq[Command]
+) {
+
+  def main(args: ArraySlice[String]): Unit = {
+    commands.find(_.name == args.head) match {
+      case Some(cmd) => {
+        args.next()
+        cmd.main(args)
+      }
+      case None => {
+        sys.error(s"Unknown command ${args.head}")
+      }
+    }
+  }
+
+  def help: String = {
+    "TODO"
+  }
+
+}
+
 case class Command(
   name: String,
   usage: String,
