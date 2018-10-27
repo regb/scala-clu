@@ -6,6 +6,9 @@ case class MultiCommands(
 ) {
 
   def main(args: ArraySlice[String]): Unit = {
+    if(!args.hasNext) {
+      sys.error(s"Missing command selection")
+    }
     commands.find(_.name == args.head) match {
       case Some(cmd) => {
         args.next()
