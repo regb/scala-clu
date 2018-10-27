@@ -6,6 +6,8 @@ object Main {
 
   object FlagCounter extends IntFlagDef("counter", "A counter flag", Some(1), Some('c'))
 
+  object Arg1 extends IntArgDef("arg1", "An integer argument")
+
   def main(args: Array[String]): Unit = {
 
     val command = Command(
@@ -14,15 +16,15 @@ object Main {
 
 Example:
   example --counter 4
-""", List(), List(FlagCounter), () => execute())
-
-    println("args: " + args.toList)
+""", List(Arg1), List(FlagCounter), () => execute())
 
     command.main(new ArraySlice(args, 0, args.length))
   }
 
   def execute(): Int = {
     println("Hello World")
+    println(s"flag counter=${FlagCounter.value}")
+    println(s"arg1=${Arg1.value}")
     0
   }
 

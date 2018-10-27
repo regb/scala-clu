@@ -10,7 +10,10 @@ case class Command(
 ) {
   def main(args: ArraySlice[String]): Unit = {
     FlagDef.processFlags(this.flags)(args)
-    //ArgDef.processArgs(this.args)(args)
+    ArgDef.processArgs(this.args)(args)
+    if(args.nonEmpty) {
+      sys.error("Unexpected argument: " + args.head)
+    }
     sys.exit(execute())
   }
 
@@ -26,6 +29,9 @@ class ArraySlice[A](array: Array[A], private var from: Int, private var length: 
   def apply(i: Int): A = array(from + i)
 
   def head: A = array(from)
+
+  def isEmpty: Boolean = length == 0
+  def nonEmpty = !isEmpty
 
   def hasNext: Boolean = length > 0
   def next(): A = {
